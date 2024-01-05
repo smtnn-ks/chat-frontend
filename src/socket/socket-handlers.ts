@@ -22,10 +22,8 @@ export async function onMessageHandler(
   users: UserInfoChatList[],
   setUsers: Dispatch<SetStateAction<UserInfoChatList[]>>,
 ) {
-  console.log('RECEIVED ::', payload)
   if (messageHandler) {
     const result = await messageHandler.decrypt(payload)
-    console.log('DECRYPTED ::', result)
     const message: Message = {
       id: nanoid(),
       with: result.from,
@@ -35,7 +33,6 @@ export async function onMessageHandler(
     if (currentUser && message.with === currentUser.userInfo.id) {
       setMessages((current) => [...current, message])
     } else {
-      console.log('currentUser:', currentUser)
       const sender = users.find((usr) => (usr.userInfo.id = message.with))
       if (sender) {
         sender.unreadMessagesCount += 1
@@ -77,8 +74,6 @@ export async function onPendingHandler(
     with: inc.from,
     ...inc,
   }))
-
-  console.log('Received pending messages:', messages)
 
   putMessage(messages)
 

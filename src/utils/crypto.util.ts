@@ -221,6 +221,5 @@ export async function getMessageHandlerInstance(userId: string) {
     importServicePublicKey(),
     getPrivateKey(userId),
   ])
-  console.log('PROPS ::', props)
   return new MessageHandler(...props)
 }

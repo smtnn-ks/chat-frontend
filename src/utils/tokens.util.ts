@@ -15,6 +15,4 @@ export async function refreshTokens() {
 
   localStorage.setItem('accessToken', payload.accessToken)
   localStorage.setItem('refreshToken', payload.refreshToken)
-
-  console.log('TOKENS REFRESHED')
 }

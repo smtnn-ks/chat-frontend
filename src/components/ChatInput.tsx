@@ -50,8 +50,6 @@ export default function ChatInput({
       setMessages((current) => [...current, messageToSafe])
       encryptMessage(content, publicKey).then((enc) => {
         socket.emit('createMessage', { userId: currentUserId, ...enc })
-        console.log('WHAT IS SENDED:', message)
-        console.log('HOW IT IS ENCRYPTED:', enc)
       })
       reset()
     }

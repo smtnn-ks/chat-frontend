@@ -154,7 +154,6 @@ export function putMessage(message: Message | Message[]) {
 
       transaction.oncomplete = () => {
         db.close()
-        console.log('MESSAGE SUCCESSFULLY SAVED TO DATABASE')
         resolve()
       }
     }
