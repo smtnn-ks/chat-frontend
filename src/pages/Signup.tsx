@@ -16,13 +16,16 @@ export default function Signup() {
   }) => {
     if (password !== repeatPassword) return alert('Passwords do not match')
 
-    const response = await fetch('http://localhost:5000/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://${import.meta.env.VITE_BACK_HOST}:5000/auth/signup`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       },
-      body: JSON.stringify({ email, password }),
-    })
+    )
 
     const payload = await response.json()
     if (response.status !== 201) return alert(payload.message)

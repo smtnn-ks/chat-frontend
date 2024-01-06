@@ -7,16 +7,20 @@ type Input = {
 }
 
 export default function Signin() {
+  console.log(import.meta.env.VITE_BACK_HOST)
   const { handleSubmit, register } = useForm<Input>()
 
   const onSubmit: SubmitHandler<Input> = async (data) => {
-    const response = await fetch('http://localhost:5000/auth/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://${import.meta.env.VITE_BACK_HOST}:5000/auth/signin`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    })
+    )
 
     const payload = await response.json()
     if (response.status !== 201) return alert(payload.message)

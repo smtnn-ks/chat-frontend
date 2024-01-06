@@ -1,10 +1,13 @@
 export async function refreshTokens() {
-  const response = await fetch('http://localhost:5000/auth/refresh', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('refreshToken'),
+  const response = await fetch(
+    `http://${import.meta.env.VITE_BACK_HOST}:5000/auth/refresh`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('refreshToken'),
+      },
     },
-  })
+  )
 
   const payload = await response.json()
 

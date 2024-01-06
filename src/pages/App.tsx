@@ -50,7 +50,7 @@ function App() {
   useEffect(() => {
     const timeout = 1000 * 60 * 9 // every nine minutes
     refreshTokens().catch(() => (window.location.href = '/signin'))
-    timer.current = setInterval(refreshTokens, timeout)
+    timer.current = window.setInterval(refreshTokens, timeout)
 
     getMessageHandlerInstance(userId).then((handler) => {
       messageHandler.current = handler

@@ -18,14 +18,17 @@ export default function UpdateUserInfo({
   const { register, handleSubmit } = useForm<Input>()
 
   const onSubmit: SubmitHandler<Input> = async (input) => {
-    const response = await fetch('http://localhost:5000/users/' + userId, {
-      method: 'PUT',
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://${import.meta.env.VITE_BACK_HOST}:5000/users/` + userId,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(input),
       },
-      body: JSON.stringify(input),
-    })
+    )
 
     const payload = await response.json()
 
