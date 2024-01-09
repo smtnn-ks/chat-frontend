@@ -1,6 +1,6 @@
 export async function refreshTokens() {
   const response = await fetch(
-    `https://${import.meta.env.VITE_BACK_HOST}/auth/refresh`,
+    `${import.meta.env.VITE_BACK_HOST}/auth/refresh`,
     {
       method: 'POST',
       headers: {

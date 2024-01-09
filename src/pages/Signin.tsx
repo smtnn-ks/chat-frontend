@@ -11,7 +11,7 @@ export default function Signin() {
 
   const onSubmit: SubmitHandler<Input> = async (data) => {
     const response = await fetch(
-      `https://${import.meta.env.VITE_BACK_HOST}/auth/signin`,
+      `${import.meta.env.VITE_BACK_HOST}/auth/signin`,
       {
         method: 'POST',
         headers: {

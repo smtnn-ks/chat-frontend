@@ -4,7 +4,7 @@ export async function fetchUserInfo(
   userId: string,
 ): Promise<UserInfoInput | null> {
   const response = await fetch(
-    `https://${import.meta.env.VITE_BACK_HOST}/users/` + userId,
+    `${import.meta.env.VITE_BACK_HOST}/users/` + userId,
     {
       method: 'GET',
       headers: {

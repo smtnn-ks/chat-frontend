@@ -24,7 +24,7 @@ export default function UserSearch({ users, setUsers }: Props) {
     if (inputTrimmed) {
       setIsSearchUserInfoReady(false)
       const response = await fetch(
-        `https://${import.meta.env.VITE_BACK_HOST}/users?` +
+        `${import.meta.env.VITE_BACK_HOST}/users?` +
           new URLSearchParams({ input: inputTrimmed }),
         {
           method: 'GET',

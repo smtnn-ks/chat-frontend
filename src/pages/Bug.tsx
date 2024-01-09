@@ -8,7 +8,10 @@ export default function Bug() {
         <p>Sorry :( </p>
         <p>
           If you have a clue what happened, please create an&#160;
-          <a className="link" href="https://youtube.com">
+          <a
+            className="link"
+            href="https://github.com/smtnn-ks/chat-frontend/issues"
+          >
             GitHub issue
           </a>
           .
