@@ -7,12 +7,11 @@ type Input = {
 }
 
 export default function Signin() {
-  console.log(import.meta.env.VITE_BACK_HOST)
   const { handleSubmit, register } = useForm<Input>()
 
   const onSubmit: SubmitHandler<Input> = async (data) => {
     const response = await fetch(
-      `http://${import.meta.env.VITE_BACK_HOST}:5000/auth/signin`,
+      `https://${import.meta.env.VITE_BACK_HOST}/auth/signin`,
       {
         method: 'POST',
         headers: {

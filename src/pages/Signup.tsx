@@ -17,7 +17,7 @@ export default function Signup() {
     if (password !== repeatPassword) return alert('Passwords do not match')
 
     const response = await fetch(
-      `http://${import.meta.env.VITE_BACK_HOST}:5000/auth/signup`,
+      `https://${import.meta.env.VITE_BACK_HOST}/auth/signup`,
       {
         method: 'POST',
         headers: {

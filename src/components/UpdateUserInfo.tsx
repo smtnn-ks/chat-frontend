@@ -19,7 +19,7 @@ export default function UpdateUserInfo({
 
   const onSubmit: SubmitHandler<Input> = async (input) => {
     const response = await fetch(
-      `http://${import.meta.env.VITE_BACK_HOST}:5000/users/` + userId,
+      `https://${import.meta.env.VITE_BACK_HOST}/users/` + userId,
       {
         method: 'PUT',
         headers: {
