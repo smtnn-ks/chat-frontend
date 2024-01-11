@@ -13,7 +13,7 @@ export default function MessageBox({ message, userId }: Props) {
           message.from === userId ? 'chat-end' : 'chat-start'
         }`}
       >
-        <div className="chat-bubble">{message.content}</div>
+        <div className="chat-bubble break-words">{message.content}</div>
         <div className="chat-footer text-xs">
           {new Date(message.time).toLocaleString()}
         </div>

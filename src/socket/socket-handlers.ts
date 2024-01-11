@@ -33,25 +33,25 @@ export async function onMessageHandler(
     if (currentUser && message.with === currentUser.userInfo.id) {
       setMessages((current) => [...current, message])
     } else {
-      const sender = users.find((usr) => (usr.userInfo.id = message.with))
-      if (sender) {
-        sender.unreadMessagesCount += 1
-        const notSenders = users.filter(
-          (usr) => usr.userInfo.id !== sender.userInfo.id,
-        )
-        setUsers([...notSenders, sender])
-      } else {
+      const senderIndex = users.findIndex(
+        (usr) => (usr.userInfo.id = message.with),
+      )
+      if (senderIndex === -1) {
         const newUserInfoInput = await fetchUserInfo(message.from)
         if (newUserInfoInput) {
           const newUserInfo = await processUserInfoInput(newUserInfoInput)
           putUser(newUserInfo)
+          // TODO: Check if this 'isOnline' handling is correct
           setUsers((current) => [
             ...current,
-            { userInfo: newUserInfo, unreadMessagesCount: 1 },
+            { userInfo: newUserInfo, unreadMessagesCount: 1, isOnline: false },
           ])
         } else {
           throw new Error('Got message from unknown user')
         }
+      } else {
+        users[senderIndex].unreadMessagesCount += 1
+        setUsers(users)
       }
     }
   } else {
@@ -105,10 +105,25 @@ export async function onPendingHandler(
     }
   })
 
+  // TODO: Handle 'isOnline' there
   const userInfoChatList: UserInfoChatList[] = usersWithNew.map((usr) => ({
     userInfo: usr,
     unreadMessagesCount: messageRecord[usr.id],
+    isOnline: false,
   }))
 
   setUsers(userInfoChatList)
+}
+
+export async function onOnlineListHandler(
+  payload: string[],
+  setUsers: Dispatch<SetStateAction<UserInfoChatList[]>>,
+) {
+  console.log('onOnlineListHandler payload:', payload)
+  setUsers((users) =>
+    users.map((usr) => ({
+      ...usr,
+      isOnline: payload.includes(usr.userInfo.id),
+    })),
+  )
 }

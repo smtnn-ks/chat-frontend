@@ -4,7 +4,11 @@ import ChatInput from '../components/ChatInput'
 import ChatList from '../components/ChatList'
 import UpdateUserInfo from '../components/UpdateUserInfo'
 import UserSearch from '../components/UserSearch'
-import { onMessageHandler, onPendingHandler } from '../socket'
+import {
+  onMessageHandler,
+  onOnlineListHandler,
+  onPendingHandler,
+} from '../socket'
 import { socket } from '../socket/socket'
 import { Message, UserInfoChatList } from '../types'
 import { SignedMessagePayload } from '../types/message-payload.type'
@@ -72,10 +76,15 @@ function App() {
       onPendingHandler(payload, messageHandler.current, users, setUsers),
     )
 
+    socket.on('onlineList', (payload: string[]) =>
+      onOnlineListHandler(payload, setUsers),
+    )
+
     return () => {
       if (timer.current !== null) clearInterval(timer.current)
       socket.off('message')
       socket.off('pending')
+      socket.off('onlineList')
     }
   }, [currentUser, userId, users])
 
@@ -106,32 +115,35 @@ function App() {
         className="absolute bottom-0 left-0 w-screen h-[calc(100vh-4rem)] 
       flex items-center justify-center"
       >
-        <ChatList
-          users={users}
-          setCurrentUser={setCurrentUser}
-          setUsers={setUsers}
-        />
-        <div
-          className="w-[30rem] menu bg-base-200 h-[36rem] rounded-r-box flex
+        <div className="flex flex-row h-full py-3">
+          <ChatList
+            users={users}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            setUsers={setUsers}
+          />
+          <div
+            className="w-[30rem] menu bg-base-200 h-full rounded-r-box flex
         flex-row items-center justify-center text-base-content"
-        >
-          <div className="w-full h-[calc(100%-4rem)]">
-            <ChatBox
-              userId={userId}
-              currentUser={currentUser}
-              messages={messages}
-              setMessages={setMessages}
-            />
-          </div>
-          <div className="w-full h-16">
-            {currentUser ? (
-              <ChatInput
+          >
+            <div className="w-full h-[calc(100%-4rem)]">
+              <ChatBox
                 userId={userId}
-                currentUserId={currentUser.userInfo.id}
-                publicKey={currentUser.userInfo.publicKey}
+                currentUser={currentUser}
+                messages={messages}
                 setMessages={setMessages}
               />
-            ) : null}
+            </div>
+            <div className="w-full h-16">
+              {currentUser ? (
+                <ChatInput
+                  userId={userId}
+                  currentUserId={currentUser.userInfo.id}
+                  publicKey={currentUser.userInfo.publicKey}
+                  setMessages={setMessages}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

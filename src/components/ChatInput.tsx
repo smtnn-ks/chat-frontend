@@ -25,34 +25,32 @@ export default function ChatInput({
   const { register, handleSubmit, reset } = useForm<Input>()
 
   const onSubmit: SubmitHandler<Input> = (input) => {
-    if (input.data) {
-      const trimmedData = input.data.trim()
-      if (trimmedData.length > 200) {
-        alert(
-          'Does not support messages longer than 200 characters for now. Sorry',
-        )
-        return
-      }
-      const message: IncomingMessage = {
-        from: userId,
-        time: Date.now(),
-        content: trimmedData,
-      }
-      const messageToSafe = {
-        id: nanoid(),
-        from: userId,
-        with: currentUserId,
-        time: Date.now(),
-        content: trimmedData,
-      }
-      const content = JSON.stringify(message)
-      putMessage(messageToSafe)
-      setMessages((current) => [...current, messageToSafe])
-      encryptMessage(content, publicKey).then((enc) => {
-        socket.emit('createMessage', { userId: currentUserId, ...enc })
-      })
-      reset()
+    const trimmedData = input.data.trim()
+    if (trimmedData.length > 200) {
+      alert(
+        'Does not support messages longer than 200 characters for now. Sorry',
+      )
+      return
     }
+    const message: IncomingMessage = {
+      from: userId,
+      time: Date.now(),
+      content: trimmedData,
+    }
+    const messageToSafe = {
+      id: nanoid(),
+      from: userId,
+      with: currentUserId,
+      time: Date.now(),
+      content: trimmedData,
+    }
+    const content = JSON.stringify(message)
+    putMessage(messageToSafe)
+    setMessages((current) => [...current, messageToSafe])
+    encryptMessage(content, publicKey).then((enc) => {
+      socket.emit('createMessage', { userId: currentUserId, ...enc })
+    })
+    reset()
   }
 
   return (

@@ -26,6 +26,7 @@ export async function addUserToChatList(
   const userInfoChatList: UserInfoChatList = {
     userInfo,
     unreadMessagesCount: 0,
+    isOnline: false,
   }
   setUsers((current) => [...current, userInfoChatList])
 
